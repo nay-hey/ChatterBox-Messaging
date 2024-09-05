@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=AIzaSyCPlAQSY7oF0dzca_vBcr4ifQGAlWqg-a8";
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`;
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
