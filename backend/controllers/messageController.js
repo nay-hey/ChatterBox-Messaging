@@ -35,15 +35,12 @@ exports.sendSingleMessage = CatchAsyncErrors(async (req, res, next) => {
     content: content || imageUrl, 
   };
 
-  // Create the message
   let message = await Message.create(newMessage);
 
-  // Populate the sender and chat fields
   message = await Message.findById(message._id)
     .populate('sender')
     .populate('chat');
 
-  // Populate the chat users
   message = await User.populate(message, { path: 'chat.users' });
 
   await Chat.findByIdAndUpdate(chatId, { latestMessage: message });

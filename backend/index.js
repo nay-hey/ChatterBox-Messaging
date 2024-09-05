@@ -42,7 +42,6 @@ const io = require('socket.io')(server, {
   },
 });
 
-// listening events
 io.on('connection', (socket) => {
   socketEventHandler.handleSetup(socket);
   socketEventHandler.handleJoinChat(socket);
