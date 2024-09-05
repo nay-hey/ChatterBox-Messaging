@@ -87,6 +87,39 @@ function SingleChat() {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        sendImageMessage(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const sendImageMessage = async (base64Image) => {
+    try {
+      const body = {
+        chatId: selectedChat._id,
+        image: base64Image,
+      };
+      const response = await axios.post('http://localhost:5000/api/message', body);
+      const { data } = response.data;
+      socket.emit('new_message', data);
+      setMessages((prev) => [...prev, data]);
+      scrollToBottom();
+    } catch (error) {
+      toast({
+        position: 'top',
+        title: 'Error occurred',
+        description: error.response?.data?.message || 'An error occurred',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
   const sendMessage = async (e) => {
     if (e.key === 'Enter' && newMessage) {
       try {
@@ -281,6 +314,17 @@ function SingleChat() {
                 value={newMessage}
                 onChange={handleTyping}
               />
+              
+              <Box mt="2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload} 
+                  bg="#1E201E"
+                  color="white"
+                  borderRadius="full"
+                />
+              </Box>
             </FormControl>
           </Box>
         </>

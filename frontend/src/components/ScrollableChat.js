@@ -8,6 +8,9 @@ import { MdArrowDropDown } from 'react-icons/md';
 
 function ScrollableChat({ messages, handleDelete }) {
   const { currentUser } = useUserContext();
+  const isImageUrl = (url) => {
+    return url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null;
+  };
 
   return (
     <ScrollableFeed>
@@ -55,7 +58,17 @@ function ScrollableChat({ messages, handleDelete }) {
               shadow='base'
               position='relative'
             >
-              <Text color={isCurrentUser ? 'white' : 'white'}>{message.content}</Text>
+              {isImageUrl(message.content) ? (
+                <Box>
+                  <img 
+                    src={message.content} 
+                    alt="Sent content" 
+                    style={{ maxWidth: '100%', borderRadius: '8px' }} 
+                  />
+                </Box>
+              ) : (
+                <Text color={isCurrentUser ? 'white' : 'white'}>{message.content}</Text>
+              )}
               <Text alignSelf='flex-end' fontSize='0.75rem' color={isCurrentUser ? 'white' : 'white'}>
                 {new Date(message.createdAt).toLocaleTimeString([], {
                   hour: '2-digit',

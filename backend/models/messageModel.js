@@ -10,6 +10,9 @@ const messageModel = mongoose.Schema(
       type: String,
       trim: true,
     },
+    imageUrl: {
+      type: String, 
+    },
     chat: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Chat',

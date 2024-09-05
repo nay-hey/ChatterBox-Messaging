@@ -40,14 +40,12 @@ export default function Home() {
     console.log(message);
     if (!message.trim()) return;
 
-    // Display user's message
     setChat((prevChat) => [...prevChat, { type: 'user', text: message }]);
 
     try {
       const response = await axios.post('/api/chat', { message });
       const botReply = response.data.reply;
 
-      // Display bot's response
       setChat((prevChat) => [...prevChat, { type: 'bot', text: botReply }]);
     } catch (error) {
       console.error('Error communicating with bot:', error);
@@ -115,7 +113,7 @@ export default function Home() {
                     <Box
                       p="2"
                       borderRadius="md"
-                      bg={msg.type === 'user' ? 'green.500' : 'white'}
+                      bg={msg.type === 'user' ? 'green.500' : '#1E201E'}
                       maxW="60%"
                       textAlign={msg.type === 'user' ? 'right' : 'left'}
                     >

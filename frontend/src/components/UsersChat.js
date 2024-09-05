@@ -67,72 +67,74 @@ function UsersChat() {
       <VStack w='100%' spacing='1'>
         <GroupChatModal />
         <Chat />
-          {chats.map((chat, index) => {
-            return (
-              <Box key={index} w='100%'>
-                <HStack
-                  w='100%'
-                  m='0'
-                  py='4'
-                  px='2'
-                  spacing='2'
-                  bg={
-                    selectedChat?._id === chat._id ? '#1E201E' : 'transparent'
+        {chats.map((chat, index) => {
+          const isImageUrl = (url) => {
+            return url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null;
+          };
+
+          return (
+            <Box key={index} w="100%">
+              <HStack
+                w="100%"
+                m="0"
+                py="4"
+                px="2"
+                spacing="2"
+                bg={selectedChat?._id === chat._id ? "#1E201E" : "transparent"}
+                _hover={{ background: "#21241f" }}
+                onClick={() => setSelectedChat(chat)}
+              >
+                <Avatar
+                  name={
+                    !chat.isGroupChat
+                      ? getSender(currentUser, chat.users)
+                      : chat.chatName
                   }
-                  _hover={{ background: '#21241f' }}
-                  onClick={() => setSelectedChat(chat)}
+                  src={
+                    !chat.isGroupChat
+                      ? getSendersFullDetails(currentUser, chat.users).avatar.url
+                      : ""
+                  }
+                />
+                <VStack
+                  w="100%"
+                  spacing="0"
+                  justifyContent="space-between"
+                  alignItems="flex-start"
                 >
-                  <Avatar
-                    name={
-                      !chat.isGroupChat
+                  <HStack w="100%" justifyContent="space-between" fontSize="1.125rem">
+                    <Text color="white">
+                      {!chat.isGroupChat
                         ? getSender(currentUser, chat.users)
-                        : chat.chatName
-                    }
-                    src={
-                      !chat.isGroupChat
-                        ? getSendersFullDetails(currentUser, chat.users).avatar
-                            .url
-                        : ''
-                    }
-                  />
-                  <VStack
-                    w='100%'
-                    spacing='0'
-                    justifyContent='space-between'
-                    alignItems='flex-start'
-                  >
-                    <HStack
-                      w='100%'
-                      justifyContent='space-between'
-                      fontSize='1.125rem'
-                    >
-                      <Text color='white' >
-                        {!chat.isGroupChat
-                          ? getSender(currentUser, chat.users)
-                          : chat.chatName}
-                      </Text>
-                      {chat.latestMessage && (
-                        <Text fontSize='xs' color='white'>
-                          {new Date(
-                            chat.latestMessage.createdAt
-                          ).toLocaleDateString()}
-                        </Text>
-                      )}
-                    </HStack>
+                        : chat.chatName}
+                    </Text>
                     {chat.latestMessage && (
-                      <Text color='white'>
-                        {chat.latestMessage.sender.name}:{' '}
-                        {chat.latestMessage.content.length > 50
-                          ? chat.latestMessage.content.substring(0, 51) + '...'
-                          : chat.latestMessage.content}
+                      <Text fontSize="xs" color="white">
+                        {new Date(chat.latestMessage.createdAt).toLocaleDateString()}
                       </Text>
                     )}
-                  </VStack>
-                </HStack>
-                <Divider />
-              </Box>
-            );
-          })}
+                  </HStack>
+                  {chat.latestMessage && (
+                    <>
+                      <Text color="white">
+                        {chat.latestMessage.sender.name}:{' '}
+                        {isImageUrl(chat.latestMessage.content) ? (
+                          "📷 Photo"  
+                        ) : chat.latestMessage.content.length > 50 ? (
+                          chat.latestMessage.content.substring(0, 51) + "..."
+                        ) : (
+                          chat.latestMessage.content
+                        )}
+                      </Text>
+                    </>
+                  )}
+                </VStack>
+              </HStack>
+              <Divider />
+            </Box>
+          );
+        })}
+
         </VStack>
     </Box>
   );

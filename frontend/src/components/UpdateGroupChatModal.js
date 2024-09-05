@@ -251,6 +251,7 @@ function UpdateGroupChatModal({ fetchMessages }) {
           icon={<BsThreeDots />}
           colorScheme='gray'
           variant='ghost'
+          _hover="transparent"
           color='white'
           onClick={onOpen}
         />
