@@ -113,12 +113,12 @@ export default function Home() {
                     <Box
                       p="2"
                       borderRadius="md"
-                      bg={msg.type === 'user' ? 'green.500' : '#1E201E'}
+                      bg={msg.type === 'user' ? 'green.500' : 'black'}
                       maxW="60%"
                       textAlign={msg.type === 'user' ? 'right' : 'left'}
                     >
-                      <Text fontWeight="bold" color={msg.type === 'user' ? 'white' : 'black'}>{msg.type === 'user' ? 'You' : 'Bot'}:</Text>
-                      <Text color={msg.type === 'user' ? 'white' : 'black'}>{msg.text}</Text>
+                      <Text fontWeight="bold" color={msg.type === 'user' ? 'white' : 'white'}>{msg.type === 'user' ? 'You' : 'Bot'}:</Text>
+                      <Text color={msg.type === 'user' ? 'white' : 'white'}>{msg.text}</Text>
                     </Box>
                   </Flex>
                 ))}
